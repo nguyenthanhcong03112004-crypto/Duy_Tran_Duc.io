@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Speaking: Routine, Work & Lifestyle</title>
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: '#3b82f6', /* Blue-500 */
+                        accent: '#6366f1', /* Indigo-500 */
+                        highlight: '#f43f5e', /* Rose-500 */
+                    },
+                    animation: {
+                        'slide-in': 'slideIn 0.5s ease-out forwards',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        slideIn: {
+                            '0%': { opacity: '0', transform: 'translateX(20px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%); /* Blue-50 to Indigo-100 */
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+            border-radius: 4px;
+        }
+
+        /* Content Formatting */
+        .hint-content ul { list-style: none; padding-left: 0; margin-top: 0.5rem; }
+        .hint-content li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; color: #334155; line-height: 1.6; }
+        .hint-content li::before {
+            content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; left: 0; top: 3px; color: #3b82f6;
+        }
+        .hint-content strong { color: #1d4ed8; font-weight: 700; }
+        .hint-content h4 { font-weight: 800; color: #1e293b; margin-top: 1.2rem; margin-bottom: 0.6rem; font-family: 'Poppins', sans-serif; }
+        
+        .sample-answer {
+            background: #eff6ff; border-left: 4px solid #2563eb;
+            padding: 1rem; margin: 0.8rem 0; border-radius: 0 0.5rem 0.5rem 0;
+            font-style: italic; color: #1e40af; font-size: 0.95rem;
+        }
+
+        /* Recording Animation */
+        .recording-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen text-slate-800">
+
+    <!-- Navbar -->
+    <nav class="glass-panel sticky top-0 z-50 px-6 py-3 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-brand to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div>
+                <h1 class="font-heading font-bold text-lg leading-tight">Speaking Practice</h1>
+                <p class="text-xs text-slate-500 font-medium">Topic: Daily Routine & Work</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div class="hidden md:flex flex-col items-end">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tiến độ</span>
+                <span id="progressText" class="text-brand font-bold">0/0</span>
+            </div>
+            <div class="w-32 h-2 bg-slate-200 rounded-full overflow-hidden hidden md:block">
+                <div id="progressBar" class="h-full bg-brand transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-6 overflow-hidden relative">
+        
+        <!-- Background Decor -->
+        <div class="absolute top-10 left-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 2s"></div>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="glass-panel w-full max-w-2xl rounded-3xl p-10 text-center shadow-2xl animate-fade-in z-10">
+            <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 text-brand text-4xl shadow-inner">
+                <i class="fas fa-play"></i>
+            </div>
+            <h2 class="text-3xl font-heading font-extrabold text-slate-800 mb-4">Chủ đề mới đã sẵn sàng!</h2>
+            <p class="text-slate-500 mb-8 text-lg">
+                Nội dung bao gồm: <br>
+                <b>Morning Routine, Work (Sales Executive), Cooking, Jogging, Shopping & Friends.</b>
+            </p>
+            <button onclick="startApp()" class="px-8 py-4 bg-gradient-to-r from-brand to-indigo-600 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-blue-500/50 hover:scale-105 transition-all">
+                Bắt đầu ngay <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Slide Container (Hidden initially) -->
+        <div id="slideContainer" class="hidden w-full max-w-6xl h-[85vh] md:h-[80vh] flex flex-col gap-4 animate-slide-in relative z-10">
+            
+            <!-- Question Header Card -->
+            <div class="glass-panel p-6 rounded-2xl flex-shrink-0">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span id="topicBadge" class="inline-block px-3 py-1 bg-blue-100 text-brand text-xs font-bold rounded-full uppercase tracking-wider mb-2">Topic</span>
+                        <h2 id="questionText" class="text-2xl md:text-3xl font-heading font-bold text-slate-800">Loading...</h2>
+                    </div>
+                    <button onclick="speakQuestion()" class="p-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors tooltip" title="Nghe câu hỏi">
+                        <i class="fas fa-volume-high"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Split View -->
+            <div class="flex flex-col md:flex-row gap-4 flex-grow overflow-hidden">
+                
+                <!-- Left: Hints (Scrollable) -->
+                <div class="md:w-5/12 glass-panel rounded-2xl flex flex-col overflow-hidden border-t-4 border-t-accent">
+                    <div class="p-4 bg-white/50 border-b border-white/50 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-500"></i> Gợi ý & Cấu trúc
+                        </h3>
+                    </div>
+                    <div id="hintContainer" class="p-5 overflow-y-auto custom-scroll hint-content flex-grow text-sm md:text-base">
+                        <!-- Hints injected here -->
+                    </div>
+                    <div id="vocabFooter" class="p-3 bg-slate-50 border-t border-slate-100 flex flex-wrap gap-2 min-h-[60px]">
+                        <!-- Vocab tags injected here -->
+                    </div>
+                </div>
+
+                <!-- Right: Interaction (Fixed) -->
+                <div class="md:w-7/12 glass-panel rounded-2xl flex flex-col border-t-4 border-t-brand relative">
+                    <!-- Timer -->
+                    <div class="absolute top-4 right-4 text-xs font-mono font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded">
+                        <span id="timerDisplay">00:00</span>
+                    </div>
+
+                    <div class="p-4 bg-white/50 border-b border-white/50">
+                        <h3 class="font-bold text-slate-700 flex items-center gap-2">
+                            <i class="fas fa-pen-fancy text-brand"></i> Câu trả lời của bạn
+                        </h3>
+                    </div>
+
+                    <div class="p-4 flex-grow flex flex-col gap-3">
+                        <textarea id="answerInput" class="flex-grow w-full p-4 rounded-xl border border-slate-200 bg-white/80 focus:ring-2 focus:ring-brand focus:border-transparent resize-none transition-all placeholder-slate-400 text-base" placeholder="Viết câu trả lời hoặc ghi chú ý chính tại đây..."></textarea>
+                        
+                        <!-- Audio Player (Hidden until recorded) -->
+                        <div id="audioPlayerBox" class="hidden p-2 bg-slate-50 rounded-lg border border-slate-200 flex items-center gap-2">
+                            <audio id="audioPlayer" controls class="w-full h-8"></audio>
+                            <button onclick="deleteRecording()" class="text-red-500 hover:bg-red-50 p-2 rounded"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="p-4 bg-white/80 border-t border-slate-100 grid grid-cols-2 gap-4">
+                        <button id="recordBtn" onclick="toggleRecording()" class="py-3 rounded-xl bg-slate-800 text-white font-bold hover:bg-slate-900 transition-all flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fas fa-microphone"></i> <span>Ghi âm</span>
+                        </button>
+                        
+                        <div class="flex gap-2">
+                            <button onclick="changeSlide(-1)" id="prevBtn" class="flex-1 py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-all disabled:opacity-50">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <button onclick="changeSlide(1)" id="nextBtn" class="flex-[3] py-3 rounded-xl bg-brand text-white font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-brand/20">
+                                Tiếp theo <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="endScreen" class="hidden glass-panel w-full max-w-2xl rounded-3xl p-10 text-center shadow-2xl z-10">
+            <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600 text-4xl">
+                <i class="fas fa-flag-checkered"></i>
+            </div>
+            <h2 class="text-3xl font-heading font-extrabold text-slate-800 mb-4">Hoàn thành!</h2>
+            <p class="text-slate-500 mb-8">Bạn đã đi qua tất cả các chủ đề. Hãy tải về bài làm của mình.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="downloadWord()" class="px-6 py-4 bg-white border border-slate-200 rounded-xl font-bold text-slate-700 hover:bg-slate-50 shadow-sm flex items-center justify-center gap-2">
+                    <i class="fas fa-file-word text-blue-600"></i> Tải bản Word
+                </button>
+                <button onclick="downloadAudio()" class="px-6 py-4 bg-gradient-to-r from-brand to-indigo-600 text-white rounded-xl font-bold shadow-lg hover:shadow-blue-500/50 flex items-center justify-center gap-2">
+                    <i class="fas fa-file-audio"></i> Tải file Ghi âm (Zip)
+                </button>
+            </div>
+            <button onclick="location.reload()" class="mt-6 text-slate-400 hover:text-brand underline text-sm">Làm lại từ đầu</button>
+        </div>
+
+    </main>
+
+<script>
+    // --- NEW DATA (PARSED FROM USER INPUT) ---
+    const rawData = [
+        // --- TOPIC 1: MORNING ROUTINE ---
+        {
+            topic: "Daily Routine (Morning)",
+            questions: [
+                {
+                    text: "Can you tell me about your typical morning routine?",
+                    hint: `
+                        <h4>Wake up:</h4>
+                        <ul>
+                            <li><strong>Time:</strong> 6:00 AM.</li>
+                            <li><strong>Feeling:</strong> Often feel tired (need to prepare for a busy day).</li>
+                        </ul>
+                        <h4>Activities:</h4>
+                        <ul>
+                            <li><strong>Bedroom:</strong> Make my bed, do my hair, check phone (news), listen to weather forecast.</li>
+                            <li><strong>Bathroom:</strong> Wash face, brush teeth, body spray, <strong>shave beard</strong>. (No morning shower).</li>
+                            <li><strong>Kitchen:</strong> Open fridge, get ingredients.</li>
+                        </ul>
+                    `,
+                    vocab: ["weather forecast", "shave beard", "ingredients"]
+                },
+                {
+                    text: "What do you usually have for breakfast?",
+                    hint: `
+                        <ul>
+                            <li><strong>Food:</strong> Light meal (loads of bread, grains).</li>
+                            <li><strong>Drink:</strong> Warm water (to hydrate).</li>
+                            <li><strong>Preference:</strong> I prefer Coffee. The mixture of coffee and milk always <strong>makes my day</strong>.</li>
+                        </ul>
+                    `,
+                    vocab: ["light meal", "hydrate", "makes my day"]
+                },
+                {
+                    text: "How do you get to work?",
+                    hint: `
+                        <ul>
+                            <li><strong>Vehicle:</strong> Motorbike.</li>
+                            <li><strong>Duration:</strong> Only 5 minutes. It is very <strong>convenient</strong>.</li>
+                            <li><strong>Why not bicycle?</strong> Takes longer, physically demanding.</li>
+                            <li><strong>Why not car?</strong> Unaffordable (but I plan to have one in the future).</li>
+                        </ul>
+                    `,
+                    vocab: ["convenient", "physically demanding", "unaffordable"]
+                }
+            ]
+        },
+        // --- TOPIC 2: WORK ---
+        {
+            topic: "Work & Job",
+            questions: [
+                {
+                    text: "What is your current job?",
+                    hint: `
+                        <ul>
+                            <li><strong>Company:</strong> Import company (distribute oil to mechanical machines).</li>
+                            <li><strong>Position:</strong> I am a <strong>Sales Executive</strong>.</li>
+                            <li><strong>Duties:</strong> Make calls to potential customers and <strong>cater their requests</strong>.</li>
+                        </ul>
+                    `,
+                    vocab: ["Sales Executive", "potential customers", "cater requests"]
+                },
+                {
+                    text: "What do you like and dislike about your job?",
+                    hint: `
+                        <h4>Likes:</h4>
+                        <ul>
+                            <li><strong>Travel:</strong> Go to many places, connect with new people.</li>
+                            <li><strong>Salary:</strong> Rewarding / <strong>Lucrative</strong>.</li>
+                            <li><strong>Potential:</strong> Good career path.</li>
+                        </ul>
+                        <h4>Dislikes:</h4>
+                        <ul>
+                            <li><strong>Time-demanding:</strong> Have to be "on-call".</li>
+                            <li><strong>Sacrifice:</strong> Sacrifice private time & work-life balance.</li>
+                        </ul>
+                    `,
+                    vocab: ["lucrative", "time-demanding", "on-call", "sacrifice", "work-life balance"]
+                }
+            ]
+        },
+        // --- TOPIC 3: COOKING ---
+        {
+            topic: "Cooking",
+            questions: [
+                {
+                    text: "Do you love cooking? Why?",
+                    hint: `
+                        <ul>
+                            <li>Yes, in some aspects. I often cook dinner.</li>
+                            <li><strong>Relaxing:</strong> Cooking helps me relax.</li>
+                            <li><strong>Control:</strong> Manage nutrition, product origin, and personal flavor.</li>
+                        </ul>
+                    `,
+                    vocab: ["nutrition", "origin", "personal flavor"]
+                },
+                {
+                    text: "What dishes do you usually cook? (e.g., Fried Egg)",
+                    hint: `
+                        <ul>
+                            <li>I am a <strong>beef steak lover</strong> (requires fire control & timing skills).</li>
+                        </ul>
+                        <h4>How to make Fried Egg:</h4>
+                        <ol class="list-decimal ml-5 mb-2">
+                            <li>Get eggs from supermarket.</li>
+                            <li>Break 3-4 eggs, mix with onions & pinch of salt.</li>
+                            <li>Heat the pan, add oil.</li>
+                            <li>Pour mixture in, wait 3 mins -> Enjoy!</li>
+                        </ol>
+                    `,
+                    vocab: ["beef steak", "fire control", "timing", "pinch of salt"]
+                }
+            ]
+        },
+        // --- TOPIC 4: JOGGING & PARK ---
+        {
+            topic: "Jogging & Outdoor Activities",
+            questions: [
+                {
+                    text: "Do you like going out for a short walk?",
+                    hint: `
+                        <ul>
+                            <li>Yes, I often <strong>go jogging</strong>.</li>
+                            <li><strong>When:</strong> 5:00 PM or weekends (Mon-Fri is busy).</li>
+                            <li><strong>Where:</strong> Park near my house (10 mins on foot).</li>
+                        </ul>
+                    `,
+                    vocab: ["go jogging", "on foot"]
+                },
+                {
+                    text: "Describe the park and what you do there.",
+                    hint: `
+                        <h4>Description:</h4>
+                        <ul>
+                            <li>Large space, lake in the middle, dirt path, trees.</li>
+                            <li>Morning: Noisy/Crowded. Evening: Peaceful.</li>
+                        </ul>
+                        <h4>Activities:</h4>
+                        <ul>
+                            <li>Sit on chair under shade & enjoy tea.</li>
+                            <li>Rent a <strong>pedalo</strong> on the lake.</li>
+                            <li>Exercise with equipment.</li>
+                        </ul>
+                    `,
+                    vocab: ["dirt path", "peaceful", "pedalo", "equipment"]
+                }
+            ]
+        },
+        // --- TOPIC 5: SHOPPING ---
+        {
+            topic: "Shopping",
+            questions: [
+                {
+                    text: "Do you love shopping? Where do you shop?",
+                    hint: `
+                        <ul>
+                            <li>Yes, I am a <strong>shopping lover</strong>.</li>
+                            <li><strong>When:</strong> Weekend (when I earn salary).</li>
+                            <li><strong>Where:</strong> Shopping malls.</li>
+                            <li><strong>Items:</strong> Basic products, new models, figures, tech devices.</li>
+                        </ul>
+                    `,
+                    vocab: ["shopping lover", "tech devices"]
+                },
+                {
+                    text: "Do you prefer traditional markets or supermarkets?",
+                    hint: `
+                        <ul>
+                            <li>I prefer <strong>Supermarkets</strong>.</li>
+                            <li><strong>Variety:</strong> More options in size, materials, prices.</li>
+                            <li><strong>No Bargaining:</strong> Products have <strong>price tags</strong>.</li>
+                            <li><strong>Comfort:</strong> Air conditioning (cool in summer, warm in winter).</li>
+                        </ul>
+                    `,
+                    vocab: ["variety", "price tags", "bargain", "air conditioning"]
+                }
+            ]
+        },
+        // --- TOPIC 6: SOCIALIZING & HOBBIES ---
+        {
+            topic: "Socializing & Hobbies",
+            questions: [
+                {
+                    text: "Do you like going out for a drink or eating out?",
+                    hint: `
+                        <ul>
+                            <li>Yes, especially for a date or meeting friends.</li>
+                            <li><strong>Where:</strong> Restaurants (meal), Coffee shops (drink).</li>
+                            <li><strong>Frequency:</strong> Weekend or special occasions (friends live in diff cities).</li>
+                        </ul>
+                    `,
+                    vocab: ["special occasions", "hang out"]
+                },
+                {
+                    text: "Why do you choose coffee shops?",
+                    hint: `
+                        <ul>
+                            <li><strong>Space:</strong> Airy space.</li>
+                            <li><strong>Atmosphere:</strong> Relaxing music (piano, trendy songs).</li>
+                            <li><strong>Drinks:</strong> Various menu (coffee, smoothies, juices).</li>
+                        </ul>
+                    `,
+                    vocab: ["airy space", "various menu"]
+                },
+                {
+                    text: "Why do you love reading books?",
+                    hint: `
+                        <ul>
+                            <li><strong>Entertainment:</strong> Helps mind rest and relax after stressful work.</li>
+                            <li><strong>Learning:</strong> Practical knowledge (e.g., cooking books, nutrition books).</li>
+                        </ul>
+                    `,
+                    vocab: ["entertainment", "practical knowledge", "stressful"]
+                }
+            ]
+        }
+    ];
+
+    // --- STATE MANAGEMENT ---
+    let appState = {
+        questions: [],
+        currentIndex: 0,
+        recording: false,
+        mediaRecorder: null,
+        audioChunks: [],
+        timerInterval: null
+    };
+
+    // --- INIT ---
+    function initData() {
+        let flatQuestions = [];
+        let idCounter = 0;
+        rawData.forEach(block => {
+            block.questions.forEach(q => {
+                flatQuestions.push({
+                    id: idCounter++,
+                    topic: block.topic,
+                    text: q.text,
+                    hint: q.hint,
+                    vocab: q.vocab || [],
+                    userText: "",
+                    audioBlob: null
+                });
+            });
+        });
+        appState.questions = flatQuestions;
+        updateProgress();
+    }
+
+    // --- UI FUNCTIONS ---
+    function startApp() {
+        document.getElementById('startScreen').classList.add('hidden');
+        const container = document.getElementById('slideContainer');
+        container.classList.remove('hidden');
+        renderSlide(0);
+    }
+
+    function renderSlide(index) {
+        if (index < 0 || index >= appState.questions.length) return;
+        
+        // Save current state before switching
+        saveCurrentState();
+        resetRecordingUI();
+
+        appState.currentIndex = index;
+        const q = appState.questions[index];
+
+        document.getElementById('topicBadge').innerText = q.topic;
+        document.getElementById('questionText').innerText = q.text;
+        document.getElementById('hintContainer').innerHTML = q.hint;
+        
+        // Vocab
+        const vocabContainer = document.getElementById('vocabFooter');
+        vocabContainer.innerHTML = '';
+        q.vocab.forEach(v => {
+            const span = document.createElement('span');
+            span.className = "px-3 py-1 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-500 hover:text-brand hover:border-brand cursor-default transition-colors";
+            span.innerText = v;
+            vocabContainer.appendChild(span);
+        });
+
+        // Restore User Data
+        document.getElementById('answerInput').value = q.userText;
+        if(q.audioBlob) {
+            setupAudioPlayer(q.audioBlob);
+        }
+
+        // Navigation State
+        document.getElementById('prevBtn').disabled = (index === 0);
+        const nextBtn = document.getElementById('nextBtn');
+        if (index === appState.questions.length - 1) {
+            nextBtn.innerHTML = 'Hoàn thành <i class="fas fa-check-circle ml-1"></i>';
+            nextBtn.classList.replace('bg-brand', 'bg-accent');
+        } else {
+            nextBtn.innerHTML = 'Tiếp theo <i class="fas fa-arrow-right ml-1"></i>';
+            nextBtn.classList.replace('bg-accent', 'bg-brand');
+        }
+
+        updateProgress();
+        // Auto read
+        setTimeout(speakQuestion, 500);
+    }
+
+    function changeSlide(direction) {
+        const newIndex = appState.currentIndex + direction;
+        if (newIndex >= appState.questions.length) {
+            finishPractice();
+        } else {
+            renderSlide(newIndex);
+        }
+    }
+
+    function saveCurrentState() {
+        const q = appState.questions[appState.currentIndex];
+        q.userText = document.getElementById('answerInput').value;
+    }
+
+    function updateProgress() {
+        const current = appState.currentIndex + 1;
+        const total = appState.questions.length;
+        document.getElementById('progressText').innerText = `${current}/${total}`;
+        document.getElementById('progressBar').style.width = `${(current/total)*100}%`;
+    }
+
+    function finishPractice() {
+        saveCurrentState();
+        document.getElementById('slideContainer').classList.add('hidden');
+        document.getElementById('endScreen').classList.remove('hidden');
+    }
+
+    // --- RECORDING & AUDIO ---
+    async function toggleRecording() {
+        const btn = document.getElementById('recordBtn');
+        
+        if (!appState.recording) {
+            // Start
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                appState.mediaRecorder = new MediaRecorder(stream);
+                appState.audioChunks = [];
+
+                appState.mediaRecorder.ondataavailable = e => appState.audioChunks.push(e.data);
+                appState.mediaRecorder.onstop = () => {
+                    const blob = new Blob(appState.audioChunks, { type: 'audio/webm' });
+                    appState.questions[appState.currentIndex].audioBlob = blob;
+                    setupAudioPlayer(blob);
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                appState.mediaRecorder.start();
+                appState.recording = true;
+                
+                // UI update
+                btn.classList.add('bg-red-500', 'hover:bg-red-600', 'recording-pulse');
+                btn.classList.remove('bg-slate-800', 'hover:bg-slate-900');
+                btn.innerHTML = '<i class="fas fa-stop"></i> <span>Dừng ghi âm</span>';
+                startTimer();
+
+            } catch (err) {
+                alert("Không thể truy cập Microphone. Vui lòng kiểm tra quyền truy cập!");
+            }
+        } else {
+            // Stop
+            appState.mediaRecorder.stop();
+            appState.recording = false;
+            
+            // UI Update
+            btn.classList.remove('bg-red-500', 'hover:bg-red-600', 'recording-pulse');
+            btn.classList.add('bg-slate-800', 'hover:bg-slate-900');
+            btn.innerHTML = '<i class="fas fa-microphone"></i> <span>Ghi âm lại</span>';
+            stopTimer();
+        }
+    }
+
+    function setupAudioPlayer(blob) {
+        const url = URL.createObjectURL(blob);
+        const player = document.getElementById('audioPlayer');
+        player.src = url;
+        document.getElementById('audioPlayerBox').classList.remove('hidden');
+    }
+
+    function deleteRecording() {
+        if(confirm("Xóa bản ghi này?")) {
+            appState.questions[appState.currentIndex].audioBlob = null;
+            resetRecordingUI();
+        }
+    }
+
+    function resetRecordingUI() {
+        stopTimer();
+        document.getElementById('timerDisplay').innerText = "00:00";
+        document.getElementById('audioPlayerBox').classList.add('hidden');
+        document.getElementById('audioPlayer').src = "";
+        
+        const btn = document.getElementById('recordBtn');
+        btn.classList.remove('bg-red-500', 'hover:bg-red-600', 'recording-pulse');
+        btn.classList.add('bg-slate-800', 'hover:bg-slate-900');
+        btn.innerHTML = '<i class="fas fa-microphone"></i> <span>Ghi âm</span>';
+    }
+
+    // --- HELPERS ---
+    function startTimer() {
+        let sec = 0;
+        document.getElementById('timerDisplay').innerText = "00:00";
+        document.getElementById('timerDisplay').classList.add('text-red-500');
+        appState.timerInterval = setInterval(() => {
+            sec++;
+            const min = Math.floor(sec / 60).toString().padStart(2, '0');
+            const s = (sec % 60).toString().padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${min}:${s}`;
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(appState.timerInterval);
+        document.getElementById('timerDisplay').classList.remove('text-red-500');
+    }
+
+    function speakQuestion() {
+        const text = appState.questions[appState.currentIndex].text;
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US';
+        u.rate = 0.9;
+        window.speechSynthesis.speak(u);
+    }
+
+    // --- EXPORT ---
+    function downloadWord() {
+        let html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word'><head><meta charset='utf-8'><title>IELTS Answers</title></head><body><h1>IELTS SPEAKING PRACTICE</h1>`;
+        appState.questions.forEach((q, i) => {
+            if(q.userText) {
+                html += `<h3>${q.topic} - Q${i+1}: ${q.text}</h3><p><strong>Answer:</strong> ${q.userText.replace(/\n/g, '<br>')}</p><hr>`;
+            }
+        });
+        html += "</body></html>";
+        const blob = new Blob([html], {type: 'application/msword'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'IELTS_Practice_Result.doc';
+        a.click();
+    }
+
+    async function downloadAudio() {
+        const zip = new JSZip();
+        let count = 0;
+        appState.questions.forEach((q, i) => {
+            if(q.audioBlob) {
+                const cleanTopic = q.topic.replace(/[^a-zA-Z0-9]/g, '_');
+                zip.file(`${cleanTopic}_Q${i+1}.webm`, q.audioBlob);
+                count++;
+            }
+        });
+
+        if (count === 0) return alert("Bạn chưa ghi âm câu nào cả!");
+
+        const content = await zip.generateAsync({type:"blob"});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = "IELTS_Recordings.zip";
+        a.click();
+    }
+
+    // Run Init
+    initData();
+
+</script>
+</body>
+</html>
