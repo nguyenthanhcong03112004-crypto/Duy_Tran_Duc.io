@@ -21,7 +21,7 @@
                     },
                     colors: {
                         brand: '#d97706', /* Amber-600 */
-                        accent: '#475569', /* Slate-600 */
+                        accent: '#b45309', /* Amber-700 */
                         highlight: '#f43f5e', /* Rose-500 */
                         paper: '#fffbeb', /* Amber-50 */
                     },
@@ -317,35 +317,84 @@
         // --- TOPIC 1: SHOPPING ---
         {
             topic: "Shopping",
-            text: "How often do you go shopping?",
+            text: "Do you love shopping? Where do you shop at?",
             hint: `
                 <ul>
-                    <li><strong>Why:</strong> It is my <strong>hobby</strong> (sở thích).</li>
-                    <li>It helps me <strong>relax</strong>.</li>
+                    <li>Yes, I am a <strong>shopping lover</strong>.</li>
+                    <li><strong>Supermarket:</strong> Has air conditioning, offers various products, and has <strong>price tags</strong>.</li>
+                    <li><strong>Convenient Store:</strong> Not far (5 mins walk).</li>
                 </ul>
             `,
-            vocab: ["hobby", "relax"]
+            vocab: ["shopping lover", "supermarket", "price tags"]
+        },
+        {
+            topic: "Shopping Time",
+            text: "When do you go shopping? Why not other days?",
+            hint: `
+                <ul>
+                    <li><strong>When:</strong> Usually at the <strong>weekend</strong> (buy casual products).</li>
+                    <li><strong>Why:</strong> Busy with job (7am - 5pm, Mon-Fri).</li>
+                </ul>
+            `,
+            vocab: ["weekend", "casual products", "busy"]
+        },
+        {
+            topic: "Shopping Company",
+            text: "Do you prefer to go alone or with friends/family?",
+            hint: `
+                <ul>
+                    <li>Often go alone, but love to go with <strong>family</strong>.</li>
+                    <li><strong>Benefit:</strong> Have small talk, take photos -> <strong>Create memories that last forever</strong>.</li>
+                </ul>
+            `,
+            vocab: ["small talk", "create memories"]
+        },
+        {
+            topic: "Why Shopping",
+            text: "Why do you love shopping?",
+            hint: `
+                <ul>
+                    <li><strong>1. Hobby:</strong> Feel relaxed, <strong>fresh my mind</strong> after a busy day.</li>
+                    <li><strong>2. Achievement:</strong> Brings a <strong>sense of achievement</strong> (reward for hard work).</li>
+                </ul>
+            `,
+            vocab: ["fresh my mind", "sense of achievement", "reward"]
         },
         {
             topic: "Online Shopping",
             text: "What kind of things do you usually buy online?",
             hint: `
                 <ul>
-                    <li>I buy a lot of <strong>clothes</strong>, <strong>toys</strong>, <strong>foods</strong> and <strong>drinks</strong>.</li>
+                    <li><strong>Items:</strong> Technological devices (headphones, wifi connector, flycam...).</li>
+                    <li><strong>Why:</strong> Product info is <strong>public</strong> -> Easier to <strong>compare prices</strong>.</li>
+                    <li><strong>Benefit:</strong> Choose the <strong>best deal</strong>.</li>
                 </ul>
             `,
-            vocab: ["clothes", "toys", "foods", "drinks"]
+            vocab: ["technological devices", "compare prices", "best deal"]
         },
         {
             topic: "Shopping Preference",
+            text: "Do you prefer shopping online or traditional?",
+            hint: `
+                <ul>
+                    <li>I prefer <strong>shopping online</strong>.</li>
+                    <li><strong>Reason:</strong> Easier to compare prices, convenient (order from home).</li>
+                </ul>
+            `,
+            vocab: ["online shopping", "convenient"]
+        },
+        {
+            topic: "Malls vs Local Shops",
             text: "Do you prefer large malls or small local shops? Why?",
             hint: `
                 <ul>
-                    <li>I love <strong>supermarket</strong>.</li>
-                    <li><strong>Reason:</strong> It is <strong>bigger</strong> and <strong>larger</strong> than the small shops.</li>
+                    <li>I prefer <strong>large malls</strong>.</li>
+                    <li><strong>1. Variety:</strong> Various products.</li>
+                    <li><strong>2. Comfort:</strong> Air conditioning.</li>
+                    <li><strong>3. Price:</strong> Price tags (no bargaining).</li>
                 </ul>
             `,
-            vocab: ["supermarket", "bigger", "larger"]
+            vocab: ["large malls", "variety", "price tags"]
         },
         // --- TOPIC 2: TRAVEL ---
         {
@@ -353,50 +402,77 @@
             text: "When was the last time you went on a vacation?",
             hint: `
                 <ul>
-                    <li><strong>When:</strong> Break time and summer holiday.</li>
-                    <li><strong>Prepare:</strong> Toys, sunglasses, suncream, umbrella, towel.</li>
-                    <li><strong>Nature:</strong> Beautiful. White sand, blue <strong>seawater</strong>, <strong>coconut trees</strong>, mountains.</li>
-                    <li><strong>Weather:</strong> Nice (Four seasons).</li>
-                    <li><strong>Buildings:</strong> Cinema, malls... -> <strong>Convenient</strong>.</li>
+                    <li><strong>Who:</strong> Traveling lover.</li>
+                    <li><strong>Activities:</strong> Experience city places (restaurants, gallery, museum).</li>
+                    <li><strong>Preference:</strong> Prefer <strong>long vacation</strong> -> Stay with family longer.</li>
                 </ul>
             `,
-            vocab: ["suncream", "towel", "seawater", "coconut trees", "convenient"]
+            vocab: ["traveling lover", "gallery", "museum", "long vacation"]
         },
         {
-            topic: "Travel: Transport",
-            text: "Do you prefer traveling by car or by plane?",
+            topic: "Beach City",
+            text: "Have you been to any beach city? How is the weather?",
             hint: `
                 <ul>
-                    <li>I like traveling by <strong>plane</strong>.</li>
-                    <li><strong>Reasons:</strong> It is <strong>quiet</strong>. I can sleep. I can see the <strong>views</strong>.</li>
+                    <li><strong>Place:</strong> Ha Long City.</li>
+                    <li><strong>Weather:</strong> Hot, sunny, windy.</li>
+                    <li><strong>Suitable for:</strong> Swimming and <strong>windsurfing</strong>.</li>
                 </ul>
             `,
-            vocab: ["plane", "quiet", "views"]
+            vocab: ["Ha Long", "windsurfing", "sunny"]
         },
         {
-            topic: "Travel: Hotel",
-            text: "What is the most important thing to consider when choosing a hotel?",
+            topic: "Nature",
+            text: "How do you feel about the nature in Ha Long?",
             hint: `
                 <ul>
-                    <li><strong>Price</strong>, <strong>Location</strong>, and <strong>Comfort</strong>.</li>
+                    <li><strong>General:</strong> Beautiful, <strong>stunning</strong>, <strong>breathtaking</strong>.</li>
+                    <li><strong>Details:</strong> Soft white sand, tall green coconut trees, blue clean seawater.</li>
                 </ul>
             `,
-            vocab: ["price", "location", "comfort"]
+            vocab: ["stunning", "breathtaking", "white sand", "blue seawater"]
+        },
+        {
+            topic: "People",
+            text: "How do you feel about the people there?",
+            hint: `
+                <ul>
+                    <li><strong>Locals:</strong> Friendly, kind. Welcome tourists with a smile.</li>
+                    <li><strong>Tourists:</strong> <strong>Generous</strong>, easy to make friends.</li>
+                </ul>
+            `,
+            vocab: ["friendly", "generous", "welcome"]
+        },
+        {
+            topic: "Buildings",
+            text: "Are there many buildings in Ha Long Bay?",
+            hint: `
+                <ul>
+                    <li><strong>Buildings:</strong> Malls, recreational parks, restaurants.</li>
+                    <li><strong>Infrastructure:</strong> <strong>Well-developed</strong>.</li>
+                    <li><strong>Feeling:</strong> Very enjoyable. I always find what I need.</li>
+                </ul>
+            `,
+            vocab: ["infrastructure", "well-developed", "enjoyable"]
         }
     ];
 
     // 2. Drill Sentences for Quiz & Flashcards
     const drillSentences = [
-        { sentence: "Shopping helps me relax.", word: "relax" },
-        { sentence: "I buy clothes and toys online.", word: "clothes" },
-        { sentence: "Supermarket is bigger than small shops.", word: "bigger" },
-        { sentence: "The nature is very beautiful.", word: "beautiful" },
-        { sentence: "I like traveling by plane.", word: "plane" },
-        { sentence: "Movies are meaningful.", word: "meaningful" },
-        { sentence: "Doraemon is a robot from future.", word: "robot from future" },
-        { sentence: "Watching at home is convenient.", word: "convenient" },
-        { sentence: "I put suncream on my skin.", word: "suncream" },
-        { sentence: "The hotel has a good location.", word: "location" }
+        { sentence: "Shopping helps fresh my mind.", word: "fresh my mind" },
+        { sentence: "Supermarkets have air conditioning.", word: "air conditioning" },
+        { sentence: "Items have price tags.", word: "price tags" },
+        { sentence: "I buy casual products on weekend.", word: "casual products" },
+        { sentence: "We create memories that last forever.", word: "create memories" },
+        { sentence: "It gives me a sense of achievement.", word: "sense of achievement" },
+        { sentence: "I buy technological devices online.", word: "technological devices" },
+        { sentence: "I can compare prices easily.", word: "compare prices" },
+        { sentence: "I choose the best deal.", word: "best deal" },
+        { sentence: "Large malls offer variety.", word: "variety" },
+        { sentence: "It is suitable for windsurfing.", word: "windsurfing" },
+        { sentence: "The nature is breathtaking.", word: "breathtaking" },
+        { sentence: "The tourists are generous.", word: "generous" },
+        { sentence: "The infrastructure is well-developed.", word: "infrastructure" }
     ];
 
     // --- STATE ---
